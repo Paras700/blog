@@ -6,16 +6,14 @@ export default class Comments extends React.Component{
      }
 
      render(){
-         const element = this.props.Comment;
-         console.log(element);
+         const new_data = this.props.data.list;
+         console.log(new_data);
+         const element = new_data.map((item) =>{
          return(
              <div className="container">
-                 <ul>
-                     <li>
-                         {element}
-                    </li>
-                </ul>
+                      <p>{item}</p>
             </div>
-         );
+          );  
+        });return <p>{element}</p>  
      }
 }

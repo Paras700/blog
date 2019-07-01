@@ -1,26 +1,26 @@
 import React from 'react';
 import { conditionalExpression } from '@babel/types';
+import Comments from './Comments';
 
 export default class Post extends React.Component{
     constructor(props){
         super(props);
         this.state={
-           name : "",
-           commment:"",
+          list :[],
+          text : ""
         };
     }
-    onSubmit(e){
-    e.preventDefault();
-    let data =  JSON.stringify(localStorage.getItem('post'));
-    console.log(data);
-    const array =[];   
-    if(data != null){
-      data.map(function(v){
-        array.push(v);
-      });
-    }  
-    array.push(this.state);
-    localStorage.setItem('post',JSON.stringify(array));
+    pushData(e){
+    this.setState({
+      text :e.target.value
+    }); 
+    }
+    saveData(){
+        console.log('called');
+        this.setState({
+            list: [...this.state.list, this.state.text]
+        })
+        console.log(this.state.list);
     }
     render(){
         return(
@@ -36,34 +36,28 @@ export default class Post extends React.Component{
                       elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis 
                       tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. 
                       Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque 
-                      egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. 
+                      egestas haugue, eu vulputate magna eros eu erat. Aliquam erat volutpat. 
                       Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus
                       </p>
                  </div>
-                    <div className="container">
-                    <form className="comment-form form-group" onSubmit={(e) =>this.onSubmit(e)}>
-                    <div className="input-group">
-                    <span className="input-group-addon">Name</span>
-                       <input type="text" 
-                         placeholder="Your name" 
-                         className="form-control"
-                         value={this.state.name}
-                         onChange={e => this.setState({ name: e.target.value })} 
-                         />
-                 </div>  
+                    <div className="container">                   
                     <div className="input-group">
                     <span className="input-group-addon">Comment</span>
                     <input type="text" 
                       placeholder="Say something..." 
                       className="form-control"
-                      value={this.state.commment}
-                      onChange={e => this.setState({ commment: e.target.value })}  
-                      />
+                      onInput={(e) => this.pushData(e)}
+                      />  
                 </div>
-                    <input type="submit"                   
-                      className="btn btn-primary" />
-                  </form>
+                    <input type="button"                   
+                      className="btn btn-primary"
+                      value="Post"
+                      onClick={(e) =>this.saveData(e)} 
+                      />
                   </div>
+                  <div>
+                      <Comments data={this.state}/>
+                    </div>
             </div>
         );
     }
